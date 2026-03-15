@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoidXLKS Arcade</title>
+<style>
+    body { font-family: Arial; background: #111; color: #fff; text-align:center; }
+    h1 { margin: 20px; }
+    .game-container { margin: 20px auto; width: 600px; height: 400px; border: 2px solid #fff; position: relative; }
+    button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius:5px; }
+</style>
+</head>
+<body>
+<h1>VoidXLKS Arcade</h1>
+
+<!-- Game buttons -->
+<button onclick="showGame('2d')">Play 2D Game</button>
+<button onclick="showGame('3d')">Play 3D Game</button>
+
+<!-- Game containers -->
+<div id="2d-game" class="game-container" style="display:none;"></div>
+<div id="3d-game" class="game-container" style="display:none;"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
+<script>
+function showGame(type){
+    document.getElementById('2d-game').style.display = 'none';
+    document.getElementById('3d-game').style.display = 'none';
+    if(type === '2d') start2DGame();
+    if(type === '3d') start3DGame();
+}
+
+// ----------- 2D Game -----------
+function start2DGame(){
+    const container = document.getElementById('2d-game');
+    container.style.display = 'block';
+    container.innerHTML = '';
+
+    // Canvas setup
+    const canvas = document.createElement('canvas');
+    canvas.width = 600;
+    canvas.height = 400;
+    container.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    // Player setup
+    const player = { x: 280, y: 380, width: 40, height: 20 };
+    const square = { x: Math.random()*560, y: 0, size: 20, speed: 2 };
+    let score = 0;
+
+    document.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowLeft') player.x -= 20;
+        if(e.key === 'ArrowRight') player.x += 20;
+    });
+
+    function update(){
+        ctx.clearRect(0,0,600,400);
+        // Draw player
+        ctx.fillStyle = 'lime';
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+
+        // Draw falling square
+        ctx.fillStyle = 'red';
+        ctx.fillRect(square.x, square.y, square.size, square.size);
+        square.y += square.speed;
+
+        // Check collision
+        if(square.y + square.size > player.y && square.x < player.x + player.width && square.x + square.size > player.x){
+            score++;
+            square.y = 0;
+            square.x = Math.random()*560;
+        }
+
+        // Reset if missed
+        if(square.y > 400){
+            square.y = 0;
+            square.x = Math.random()*560;
+        }
+
+        // Score
+        ctx.fillStyle = 'white';
+        ctx.font = '20px Arial';
+        ctx.fillText('Score: '+score, 10, 30);
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+}
+
+// ----------- 3D Game -----------
+function start3DGame(){
+    const container = document.getElementById('3d-game');
+    container.style.display = 'block';
+    container.innerHTML = '';
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, 600/400, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(600, 400);
+    container.appendChild(renderer.domElement);
+
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    camera.position.z = 5;
+
+    function animate(){
+        requestAnimationFrame(animate);
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+        renderer.render(scene, camera);
+    }
+    animate();
+}
+</script>
+</body>
+</html>
