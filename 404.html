@@ -1,31 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>This Content is blocked by the FBI</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: black;
-      color: white;
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .error-box {
-      background-color: gray;
-      border-radius: 15px;
-      padding: 20px;
-      text-align: center;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 - Page Not Found</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#0b0b0b;
+    color:white;
+    text-align:center;
+}
+
+.container{
+    margin-top:120px;
+}
+
+h1{
+    font-size:80px;
+    color:#8a2cff;
+    margin:0;
+}
+
+p{
+    font-size:20px;
+    opacity:0.8;
+}
+
+button{
+    background:#8a2cff;
+    border:none;
+    padding:12px 20px;
+    color:white;
+    font-weight:bold;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+button:hover{
+    background:#a24dff;
+}
+
+#joke{
+    margin-top:30px;
+    color:#00ff9d;
+}
+
+</style>
 </head>
+
 <body>
-  <div class="error-box">
-    <p class="lead mb-0">This content is blocked by the FBI</p>
-  </div>
+
+<div class="container">
+
+<h1>404</h1>
+<p>You fell into the void...</p>
+
+<a href="index.html">
+<button>Return Home</button>
+</a>
+
+<br>
+
+<button onclick="randomJoke()">Find Page</button>
+
+<p id="joke"></p>
+
+</div>
+
+<script>
+
+function randomJoke(){
+
+let messages = [
+"This page got lost in the void.",
+"Maybe try going back home?",
+"Error 404: Page not found.",
+"Even the robux generator can't find this page.",
+"You clicked something mysterious..."
+]
+
+let random = messages[Math.floor(Math.random()*messages.length)]
+
+document.getElementById("joke").innerText = random
+
+}
+
+</script>
+
 </body>
 </html>
