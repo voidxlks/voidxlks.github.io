@@ -10,3 +10,5 @@ And here are some other sites you could visit!
 [https://voidxlks.github.io/trolls/funny-video]
 [https://voidxlks.github.io/trolls/fake-virus]
 [https://voidxlks.github.io/browser]
+
+## NOTE: https://voidxlks.github.io/browser MAY SHOW SNAKE GAME BUT JUST ENTER THE NORMAL URL IN.
