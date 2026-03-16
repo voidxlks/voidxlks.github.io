@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>System Security Scan</title>
+
+<style>
+
+body{
+    background:black;
+    color:lime;
+    font-family:monospace;
+    text-align:center;
+    margin-top:120px;
+}
+
+h1{
+    color:red;
+    font-size:40px;
+}
+
+#progress{
+    font-size:30px;
+    margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>⚠ SYSTEM SECURITY ALERT ⚠</h1>
+
+<p>Scanning system files for threats...</p>
+
+<div id="progress">0%</div>
+
+<p id="status">Initializing scan...</p>
+
+<script>
+
+let percent = 0
+
+let scan = setInterval(function(){
+
+percent++
+
+document.getElementById("progress").innerText = percent + "%"
+
+if(percent < 30){
+document.getElementById("status").innerText = "Checking system files..."
+}
+
+else if(percent < 60){
+document.getElementById("status").innerText = "Searching for malware..."
+}
+
+else if(percent < 90){
+document.getElementById("status").innerText = "Removing threats..."
+}
+
+else{
+document.getElementById("status").innerText = "Finalizing scan..."
+}
+
+if(percent >= 100){
+
+clearInterval(scan)
+
+document.body.innerHTML = `
+<h1 style="color:white;">😂 You just got trolled!</h1>
+<p>No virus was found.</p>
+<br>
+<a href="../index.html" style="color:cyan;font-size:20px;">Return to Home</a>
+`
+
+}
+
+}, 50)
+
+</script>
+
+</body>
+</html>
