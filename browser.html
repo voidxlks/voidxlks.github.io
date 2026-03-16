@@ -1,169 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Snake Game</title>
+<title>Void Browser</title>
 
 <style>
 
 body{
-    background:#0f0f0f;
-    color:white;
-    font-family:Arial;
-    text-align:center;
-    margin-top:50px;
+margin:0;
+font-family:Arial;
+background:#0f0f0f;
+color:white;
 }
 
-h1{
-    color:#00e5ff;
+header{
+background:#00e5ff;
+color:black;
+padding:10px;
+text-align:center;
 }
 
-canvas{
-    background:#111;
-    border:3px solid #00e5ff;
-    margin-top:20px;
+#toolbar{
+display:flex;
+gap:10px;
+padding:10px;
+background:#1a1a1a;
 }
 
-#score{
-    font-size:20px;
-    margin-top:10px;
+#url{
+flex:1;
+padding:10px;
+font-size:16px;
+border-radius:6px;
+border:none;
 }
 
 button{
-    margin-top:15px;
-    padding:10px 20px;
-    font-size:16px;
-    background:#00e5ff;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
+padding:10px 15px;
+font-size:14px;
+border:none;
+border-radius:6px;
+background:#00e5ff;
+cursor:pointer;
 }
 
 button:hover{
-    background:#00bcd4;
+background:#00bcd4;
+}
+
+iframe{
+width:100%;
+height:88vh;
+border:none;
+background:white;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<h1>Snake Game</h1>
+<header>
+<h1>Void Browser</h1>
+<p>Explore the web from the void</p>
+</header>
 
-<p>Use arrow keys to move.</p>
+<div id="toolbar">
 
-<div id="score">Score: 0</div>
+<button onclick="home()">Home</button>
 
-<canvas id="game" width="400" height="400"></canvas>
+<button onclick="back()">Back</button>
 
-<br>
-<button onclick="restart()">Restart</button>
+<input id="url" placeholder="Search or enter website">
+
+<button onclick="go()">Go</button>
+
+<button onclick="games()">Games</button>
+
+</div>
+
+<iframe id="frame" src=""></iframe>
 
 <script>
 
-const canvas = document.getElementById("game")
-const ctx = canvas.getContext("2d")
+let frame = document.getElementById("frame")
 
-let grid = 20
-let snake = [{x:160,y:160}]
-let dx = grid
-let dy = 0
-let food = {x:320,y:320}
-let score = 0
+function go(){
 
-function gameLoop(){
+let input = document.getElementById("url").value
 
-setTimeout(function(){
-
-requestAnimationFrame(gameLoop)
-
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-snake[0].x += dx
-snake[0].y += dy
-
-if(snake[0].x < 0) snake[0].x = canvas.width-grid
-if(snake[0].x >= canvas.width) snake[0].x = 0
-if(snake[0].y < 0) snake[0].y = canvas.height-grid
-if(snake[0].y >= canvas.height) snake[0].y = 0
-
-snake.unshift({x:snake[0].x,y:snake[0].y})
-
-if(snake[0].x === food.x && snake[0].y === food.y){
-
-score++
-document.getElementById("score").innerText = "Score: " + score
-
-food.x = Math.floor(Math.random()*20)*grid
-food.y = Math.floor(Math.random()*20)*grid
-
-}else{
-
-snake.pop()
-
+if(input.startsWith("http")){
+frame.src = input
 }
 
-ctx.fillStyle="red"
-ctx.fillRect(food.x,food.y,grid-1,grid-1)
+else if(input.includes(".")){
+frame.src = "https://" + input
+}
 
-ctx.fillStyle="lime"
-
-snake.forEach(function(part,index){
-
-ctx.fillRect(part.x,part.y,grid-1,grid-1)
-
-for(let i=index+1;i<snake.length;i++){
-
-if(part.x === snake[i].x && part.y === snake[i].y){
-
-alert("Game Over! Score: "+score)
-restart()
-
+else{
+frame.src = "https://duckduckgo.com/?q=" + input
 }
 
 }
 
-})
-
-},100)
-
+function back(){
+frame.contentWindow.history.back()
 }
 
-document.addEventListener("keydown",function(e){
-
-if(e.key === "ArrowLeft" && dx === 0){
-dx = -grid
-dy = 0
+function home(){
+frame.src = "about:blank"
 }
 
-else if(e.key === "ArrowUp" && dy === 0){
-dx = 0
-dy = -grid
+function games(){
+frame.src = "games/clicker.html"
 }
-
-else if(e.key === "ArrowRight" && dx === 0){
-dx = grid
-dy = 0
-}
-
-else if(e.key === "ArrowDown" && dy === 0){
-dx = 0
-dy = grid
-}
-
-})
-
-function restart(){
-
-snake = [{x:160,y:160}]
-dx = grid
-dy = 0
-score = 0
-document.getElementById("score").innerText = "Score: 0"
-
-}
-
-gameLoop()
 
 </script>
 
