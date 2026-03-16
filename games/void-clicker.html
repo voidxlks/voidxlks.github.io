@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Void Clicker</title>
+
+<style>
+
+body{
+    background:#0f0f0f;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+    margin-top:100px;
+}
+
+h1{
+    color:#00e5ff;
+}
+
+button{
+    font-size:25px;
+    padding:20px 40px;
+    border:none;
+    border-radius:10px;
+    background:#00e5ff;
+    color:black;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#00bcd4;
+}
+
+#score{
+    font-size:35px;
+    margin:20px;
+}
+
+.upgrade{
+    margin-top:20px;
+    padding:10px 20px;
+    font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Void Clicker</h1>
+
+<p>Click the button to earn points.</p>
+
+<div id="score">Score: 0</div>
+
+<button onclick="clickGame()">CLICK</button>
+
+<br>
+
+<button class="upgrade" onclick="upgrade()">Upgrade Click (+1)</button>
+
+<script>
+
+let score = 0
+let clickPower = 1
+let upgradeCost = 10
+
+function clickGame(){
+
+score += clickPower
+
+document.getElementById("score").innerText = "Score: " + score
+
+}
+
+function upgrade(){
+
+if(score >= upgradeCost){
+
+score -= upgradeCost
+clickPower += 1
+upgradeCost += 10
+
+alert("Upgrade purchased! Click power is now " + clickPower)
+
+}
+
+else{
+
+alert("Not enough points!")
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
