@@ -7,13 +7,21 @@
 body{
     background:#111;
     color:white;
-    font-family:Arial;
+    font-family:Arial, sans-serif;
     text-align:center;
+    margin-top:80px;
 }
 
-video{
-    margin-top:40px;
-    width:70%;
+iframe{
+    margin-top:20px;
+    border-radius:10px;
+}
+
+a{
+    color:cyan;
+    display:block;
+    margin-top:30px;
+    font-size:18px;
 }
 </style>
 
@@ -25,12 +33,10 @@ video{
 
 <p>You found the secret video page!</p>
 
-<video controls>
-<source src="video.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
-
-<br><br>
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+allowfullscreen>
+</iframe>
 
 <a href="index.html">⬅ Back to Home</a>
 
