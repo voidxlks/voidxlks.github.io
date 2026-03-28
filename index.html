@@ -18,13 +18,23 @@
         font-size: 40px;
     }
 
+    /* 🌈 FIXED RAINBOW TEXT */
     .rainbow {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: bold;
         background: linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, violet);
+        background-size: 300%;
+        background-clip: text;
         -webkit-background-clip: text;
+        color: transparent;
         -webkit-text-fill-color: transparent;
+        animation: rainbowMove 5s linear infinite;
         margin-bottom: 20px;
+    }
+
+    @keyframes rainbowMove {
+        0% { background-position: 0%; }
+        100% { background-position: 300%; }
     }
 
     .menu {
@@ -57,7 +67,6 @@
         border: 2px solid #00ffcc;
         border-radius: 10px;
         box-shadow: 0 0 15px #00ffcc;
-        position: relative;
     }
 </style>
 </head>
@@ -67,157 +76,10 @@
 <div class="rainbow">Nothing more.</div>
 
 <div class="menu">
-    <button onclick="showGame('catch')">Catch Game</button>
-    <button onclick="showGame('dodge')">Dodge Game</button>
-    <button onclick="showGame('clicker')">Clicker Game</button>
-    <button onclick="showGame('3d')">3D Cube</button>
+    <button onclick="alert('Game menu here')">Play</button>
 </div>
 
-<div id="game" class="game-container"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
-<script>
-function showGame(type){
-    const container = document.getElementById('game');
-    container.innerHTML = '';
-
-    if(type === 'catch') catchGame(container);
-    if(type === 'dodge') dodgeGame(container);
-    if(type === 'clicker') clickerGame(container);
-    if(type === '3d') cubeGame(container);
-}
-
-// 🎮 Catch Game (Improved)
-function catchGame(container){
-    const canvas = document.createElement('canvas');
-    canvas.width = 600;
-    canvas.height = 400;
-    container.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-
-    const player = { x: 280, y: 370, w: 50, h: 20 };
-    let item = { x: Math.random()*580, y: 0 };
-    let score = 0;
-
-    document.onkeydown = (e)=>{
-        if(e.key==='ArrowLeft') player.x-=25;
-        if(e.key==='ArrowRight') player.x+=25;
-    };
-
-    function loop(){
-        ctx.clearRect(0,0,600,400);
-
-        ctx.fillStyle='lime';
-        ctx.fillRect(player.x, player.y, player.w, player.h);
-
-        ctx.fillStyle='red';
-        ctx.fillRect(item.x, item.y, 20, 20);
-        item.y += 3;
-
-        if(item.y > player.y && item.x < player.x+player.w && item.x+20 > player.x){
-            score++;
-            item.y = 0;
-            item.x = Math.random()*580;
-        }
-
-        ctx.fillStyle='white';
-        ctx.fillText("Score: "+score,10,20);
-
-        requestAnimationFrame(loop);
-    }
-    loop();
-}
-
-// 🎮 Dodge Game
-function dodgeGame(container){
-    const canvas = document.createElement('canvas');
-    canvas.width = 600;
-    canvas.height = 400;
-    container.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-
-    let player = { x: 280, y: 200 };
-    let enemies = [];
-    let score = 0;
-
-    document.onmousemove = e => {
-        player.x = e.offsetX;
-        player.y = e.offsetY;
-    };
-
-    setInterval(()=>{
-        enemies.push({ x: Math.random()*600, y: 0 });
-    },1000);
-
-    function loop(){
-        ctx.clearRect(0,0,600,400);
-
-        ctx.fillStyle='cyan';
-        ctx.fillRect(player.x, player.y, 20, 20);
-
-        ctx.fillStyle='red';
-        enemies.forEach(e=>{
-            e.y += 4;
-            ctx.fillRect(e.x, e.y, 15, 15);
-
-            if(Math.abs(e.x-player.x)<15 && Math.abs(e.y-player.y)<15){
-                alert("Game Over! Score: "+score);
-                location.reload();
-            }
-        });
-
-        score++;
-        ctx.fillStyle='white';
-        ctx.fillText("Score: "+score,10,20);
-
-        requestAnimationFrame(loop);
-    }
-    loop();
-}
-
-// 🎮 Clicker Game
-function clickerGame(container){
-    let score = 0;
-    const btn = document.createElement('button');
-    btn.innerText = "Click me!";
-    btn.style.fontSize = "30px";
-
-    const text = document.createElement('div');
-    text.innerText = "Score: 0";
-
-    btn.onclick = ()=>{
-        score++;
-        text.innerText = "Score: "+score;
-    };
-
-    container.appendChild(btn);
-    container.appendChild(text);
-}
-
-// 🎮 3D Cube
-function cubeGame(container){
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 600/400, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(600, 400);
-    container.appendChild(renderer.domElement);
-
-    const cube = new THREE.Mesh(
-        new THREE.BoxGeometry(),
-        new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true })
-    );
-    scene.add(cube);
-    camera.position.z = 5;
-
-    function animate(){
-        requestAnimationFrame(animate);
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-        renderer.render(scene, camera);
-    }
-    animate();
-}
-</script>
+<div class="game-container"></div>
 
 </body>
 </html>
